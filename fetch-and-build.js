@@ -2,12 +2,11 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 
 const PAGE_ID = '210175288809';
-const ACCESS_TOKEN = 'EAAUHRrIZCMu8BOyo9I9UKOSNJqWMqu3RC5jw18ZAyaM9d5eSbIVciFR5cI4ZAx9YUt1QBTmh8WEKYWopbjVXw0pD4tiBfGNkd8nO0HRZBGMzDGxTqZBmZByrRKNHaa0EYPMSO3wYd8fhfmHsDxFoNqMZCYmqEsZBCM74IRl0kK11vco5CGy0Ll2Gjmmg894ZD';
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 
 async function fetchPosts() {
   const url = `https://graph.facebook.com/v22.0/${PAGE_ID}/posts?fields=message,attachments{subattachments{media},media}&limit=10&access_token=${ACCESS_TOKEN}`;
   const res = await fetch(url);
-
   if (!res.ok) {
     const errText = await res.text();
     console.error("Failed to fetch FB posts:", errText);
@@ -21,7 +20,11 @@ async function fetchPosts() {
   }
 
   return json.data
-    .filter(p => p.message && p.message.includes('#hookedonfandf') && p.message.includes('#fishingreport'))
+    .filter(p => {
+      if (!p.message) return false;
+      const msg = p.message.toLowerCase();
+      return msg.includes('#hookedonfandf') || msg.includes('#fishingreport');
+    })
     .slice(0, 1)
     .map(p => {
       const images = [];
@@ -55,11 +58,9 @@ async function buildHTML() {
 `;
 
   if (post) {
-    const lines = post.text.split('\\n');
+    const lines = post.text.split('\n');
     const titleLine = lines.shift();
-
     html += `<h1>${titleLine}</h1><div class="post-content"><p>${lines.join('<br>')}</p></div>`;
-
     post.images.forEach(src => {
       html += `<img src="${src}" alt="Fishing image">`;
     });
