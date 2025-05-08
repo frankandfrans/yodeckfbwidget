@@ -22,19 +22,21 @@ app.get('/', async (req, res) => {
   h1 { font-size: 2.5em; margin-bottom: 20px; color: #003366; }
   .post-content { font-size: 1.2em; max-width: 1200px; margin: 0 auto 40px auto; text-align: left; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
   .photo-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
 }
 
 .photo-gallery img {
-  flex: 1 1 auto;
-  max-width: calc(100% / 5 - 20px);
-  min-width: 150px;
-  height: auto;
-  border-radius: 8px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  border-radius: 8px;
 }
 </style>
 </head>
