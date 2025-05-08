@@ -21,7 +21,21 @@ app.get('/', async (req, res) => {
   body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; padding: 20px; text-align: center; }
   h1 { font-size: 2.5em; margin-bottom: 20px; color: #003366; }
   .post-content { font-size: 1.2em; max-width: 1200px; margin: 0 auto 40px auto; text-align: left; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-  img { width: 500px; margin: 20px 0; border-radius: 8px; }
+  .photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.photo-gallery img {
+  flex: 1 1 auto;
+  max-width: calc(100% / 5 - 20px);
+  min-width: 150px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
 </style>
 </head>
 <body>
@@ -33,9 +47,11 @@ app.get('/', async (req, res) => {
 
     html += `<h1>${titleLine}</h1><div class="post-content"><p>${lines.join('<br>')}</p></div>`;
 
+    html += `<div class="photo-gallery">`;
     post.images.forEach(src => {
       html += `<img src="${src}" alt="Fishing image">`;
     });
+    html += `</div>`;
   } else {
     html += `<h1>No fishing reports available right now.</h1>`;
   }
