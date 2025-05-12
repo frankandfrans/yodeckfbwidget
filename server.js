@@ -50,9 +50,11 @@ app.get('/', async (req, res) => {
     html += `<h1>${titleLine}</h1><div class="post-content"><p>${lines.join('<br>')}</p></div>`;
 
     html += `<div class="photo-gallery">`;
+    html += `<div class="photo-gallery">`;
     post.images.forEach(src => {
       html += `<img src="${src}" alt="Fishing image">`;
     });
+    html += `</div>`;
     html += `</div>`;
   } else {
     html += `<h1>No fishing reports available right now.</h1>`;
