@@ -51,9 +51,11 @@ app.get('/', async (req, res) => {
 
     html += `<div class="photo-gallery">`;
     html += `<div class="photo-gallery">`;
+    html += `<div class="photo-gallery">`;
     post.images.forEach(src => {
       html += `<img src="${src}" alt="Fishing image">`;
     });
+    html += `</div>`;
     html += `</div>`;
     html += `</div>`;
   } else {
